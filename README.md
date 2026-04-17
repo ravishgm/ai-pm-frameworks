@@ -2,7 +2,17 @@
 
 > Decision frameworks for product managers evaluating, scoping, and shipping AI features in enterprise industrial software.
 
-These frameworks are built from the perspective of a PM working in **complex, high-stakes operational software** — where AI being wrong has real consequences (a misrouted package, a false maintenance alarm, a conveyor that shuts down unnecessarily).
+---
+
+## Why I Built This
+
+The hardest part of being a PM at a supply chain software company in the AI era isn't knowing what AI can do. It's knowing how to make a defensible decision about whether to build an AI feature, how to phase it safely, and what "good enough" looks like before you ship it to customers who run 24/7 distribution centers.
+
+Most AI PM frameworks I found were built for consumer apps or SaaS products — where a bad recommendation is annoying but recoverable. In warehouse software, the stakes are different. A misclassified alarm, a bad routing decision, or an AI feature that operators don't trust can stop a sorter, miss an SLA, or get the feature blamed for a downtime event it didn't cause.
+
+I built these frameworks to answer the specific questions I kept hitting in my own work: *Should we actually add AI to this feature, or are we doing it because we feel pressure to? How do we sequence an AI feature without blowing up customer trust? What does acceptance criteria look like for a model, not a UI?*
+
+These are my working answers. They'll evolve as I use them.
 
 ---
 
@@ -177,6 +187,18 @@ Use when: Decision frequency is too high for human involvement; error impact is 
 - If it's infrastructure/commodity: **Buy**
 - If you need speed + customization + don't have ML talent: **Partner**
 - If you don't know yet: Start with Buy or Partner, migrate to Build once you have data and confidence
+
+---
+
+## Tradeoffs and What I'd Do Differently
+
+**What I'd add next**: A framework for AI feature sunset decisions — when to pull an AI feature that isn't performing. Most teams have no process for this, and it's a real gap in the industrial software context where customers have long memories of bad AI experiences.
+
+**What I deliberately left out**: A framework for model selection (which LLM/ML approach to use). That decision is too context-dependent to generalize, and the landscape changes too fast. The frameworks here are designed to be stable regardless of what model you're using.
+
+**Where I'm not sure I got it right**: The scoring weights in Framework 1 treat all dimensions equally. In practice, error tolerance probably deserves a higher weight for industrial software than the matrix implies — a score of 1 on error tolerance should arguably be a hard veto, not just a low score. I'm still working out whether to make that explicit.
+
+**The hardest part to calibrate**: The sequencing model (Framework 2) assumes you have the organizational patience to run shadow mode until the accuracy gate is met. In practice, there's almost always pressure to skip to Phase 2 once the model "looks good." The gate thresholds are deliberately unspecified here because they depend on the use case — but that also makes them easy to fudge under pressure.
 
 ---
 
